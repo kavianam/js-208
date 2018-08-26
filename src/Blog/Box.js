@@ -5,25 +5,33 @@ class Box extends React.Component {
         super(props);
         this.state = {
             edit: false,
-            inputName: this.props.name
+            inputTitle: this.props.title,
+            inputDescription: this.props.description
         }
     };
     show() {
         if(this.state.edit) {
-            return <input type="text" className="form-control mr-2 col-md-2" value={this.state.inputName} onChange={this.inputNameOnChange} name={'inputName'}/>
+            return <React.Fragment>
+                <input type="text" className="form-control mr-2 col-md-2" value={this.state.inputTitle} onChange={this.inputTitleOnChange} title={'inputTitle'}/>
+                <input type="text" className="form-control mr-2 col-md-2" value={this.state.inputDescription} onChange={this.inputTitleOnChange} title={'inputDescription'}/>
+            </React.Fragment>
+
         } else {
-            return <span className="input-group-text mr-2 col-md-2">{this.props.name}</span>
+            return <React.Fragment>
+                <span className="input-group-text mr-2 col-md-2">{this.props.title}</span>
+                <span className="input-group-text mr-2">{this.props.description}</span>
+            </React.Fragment>
         }
     };
-    inputNameOnChange = (e) => {
-        let {name, value} = e.target;
+    inputTitleOnChange = (e) => {
+        let {title, value} = e.target;
         this.setState({
-            [name]: value
+            [title]: value
         })
     };
     editClick = () => {
         if (this.state.edit) {
-            this.props.edit(this.props.id,this.state.inputName);
+            this.props.edit(this.props.id,this.state.inputTitle, this.state.inputDescription);
             this.setState({
                 edit: false
             })
@@ -37,12 +45,14 @@ class Box extends React.Component {
         return <li className="list-group-item d-flex justify-content-between align-items-center">
             {/*<span className="input-group-text mr-2 col-md-2">{this.props.name}</span>*/}
             {/*<input type="text" className="form-control mr-2 col-md-2" value={this.props.name} onChange={this.inputOnChange}/>*/}
+
             {this.show()}
-            <span className="input-group-text mr-2 col-md-2">{this.props.description}</span>
+
             {/*<button className="btn btn-info ml-auto mr-2" type="button" id="inputGroupFileAddon04" onClick={ () => this.props.edit(this.props.id,this.props.name)}>*/}
                 {/*<i className="fa fa-pencil mr-1"> </i>*/}
                 {/*Edit*/}
             {/*</button>*/}
+
             <button className="btn btn-info ml-auto mr-2" type="button" id="inputGroupFileAddon04" onClick={this.editClick}>
                 <i className="fa fa-pencil mr-1"> </i>
                 {(this.state.edit ? 'Save' : 'Edit')}

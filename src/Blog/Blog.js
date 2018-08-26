@@ -6,10 +6,9 @@ import Box from "./Box";
 import Swal from 'sweetalert2';
 
 //TODO 1: delete click shod be porse motmaene ya na
-//TODO 2: dar edit, age ham beshe edit kard
-//TODO 3: edit ro vaghti mizanim text ma focus va select beshe va button delete tabdil be cancel beshe
+//TODO 2: edit ro vaghti mizanim text ma focus va select beshe va button delete tabdil be cancel beshe
 
-class Todo extends React.Component {
+class Blog extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -21,17 +20,6 @@ class Todo extends React.Component {
         }
     }
     componentDidMount() {
-        // axios.get('http://localhost:3000/')
-        //     .then( res => {
-        //         this.setState({
-        //             data: res.data
-        //         });
-        //     })
-        //     .catch( err => {
-        //         Swal('Oops...', 'Something went wrong!', 'error');
-        //         console.log(err);
-        //     })
-
         axios.get('http://localhost:3000/blog')
             .then( res => {
                 this.setState({
@@ -57,13 +45,9 @@ class Todo extends React.Component {
         }
     };
     handleDelete = (id) => {
-        axios.delete('http://localhost:3000/',{
-            data: {
-                id
-            }
-        }).then( res => {
-            console.log(res);
-            this.componentDidMount();
+        axios.delete('http://localhost:3000/blog/' + id)
+            .then( res => {
+                this.componentDidMount();
         }).catch( err => {
             Swal('Oops...', 'Something went wrong!', 'error');
                 console.log(err);
@@ -99,16 +83,14 @@ class Todo extends React.Component {
             allowOutsideClick: () => !Swal.isLoading()
         });
     };
-    handleEdit2 = (title, description) => {
+    handleEdit2 = (id, title, description) => {
         axios({
             method: 'put',
-            url: 'http://localhost:3000/',
+            url: 'http://localhost:3000/blog/' + id,
             data: {
-                title,
-                description
+                title, description
             }
         }).then( res => {
-            console.log(res);
             this.componentDidMount();
         }).catch( err => {
             Swal('Oops...', 'Something went wrong!', 'error');
@@ -121,7 +103,6 @@ class Todo extends React.Component {
             title: this.state.inputTitle,
             description: this.state.inputDescription
         }).then( res => {
-            console.log(res);
             this.setState({
                 inputTitle: '',
                 inputDescription: ''
@@ -132,7 +113,7 @@ class Todo extends React.Component {
             console.log(err);
         });
     };
-    handleInputChage = (e) => {
+    handleInputChange = (e) => {
         let {name, value} = e.target;
         this.setState({
             [name]: value
@@ -160,7 +141,7 @@ class Todo extends React.Component {
                             {/*<input type="text" readOnly className="form-control-plaintext" value="Task Name: "/>*/}
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
-                            <input type="text" className="form-control" name="inputTitle" value={this.state.inputTitle} onChange={this.handleInputChage}/>
+                            <input type="text" className="form-control" name="inputTitle" value={this.state.inputTitle} onChange={this.handleInputChange}/>
                             {/*<label htmlFor="taskNameInput">Task Age:</label>*/}
                             {/*<input type="number" className="form-control" id="taskNameInput1"/>*/}
                         </div>
@@ -169,7 +150,7 @@ class Todo extends React.Component {
                             {/*<input type="text" readOnly className="form-control-plaintext" value="Task Name: "/>*/}
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
-                            <input type="text" className="form-control" name="inputDescription" value={this.state.inputDescription} onChange={this.handleInputChage}/>
+                            <input type="text" className="form-control" name="inputDescription" value={this.state.inputDescription} onChange={this.handleInputChange}/>
                         </div>
                         <button type="submit" className="btn btn-primary mb-2 mr-4" onClick={this.add}>Add</button>
                     </form>
@@ -191,7 +172,7 @@ class Todo extends React.Component {
             </div>
             <div className={'container'}>
                 <div className="alert alert-secondary" role="alert">
-                    TODO List Application <span className="badge badge-info">{this.state.data.length}</span>
+                    Blog List Application <span className="badge badge-info">{this.state.data.length}</span>
                     <span className={'ml-5'} id={'searchQuery'}>{this.handleSearchQuery()}</span>
                 </div>
             </div>
@@ -208,11 +189,11 @@ class Todo extends React.Component {
                     {
                         (this.state.data).map( (value, index) => {
                             if (this.state.searchInput === '') {
-                                return <Box name={value.title} description={value.description} delete={this.handleDelete}
+                                return <Box title={value.title} description={value.description} delete={this.handleDelete}
                                             edit={this.handleEdit2} id={value.id} key={index}/>
                             } else {
                                 if (value.title.indexOf(this.state.searchInput) > -1) {
-                                    return <Box name={value.title} description={value.description} delete={this.handleDelete}
+                                    return <Box title={value.title} description={value.description} delete={this.handleDelete}
                                                 edit={this.handleEdit2} id={value.id} key={index}/>
                                 }
                                 return '';
@@ -225,4 +206,4 @@ class Todo extends React.Component {
         }
  }
 
- export default Todo;
+ export default Blog;

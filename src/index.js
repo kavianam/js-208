@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Todo from './Todo/Todo';
+
+import Blog from './Blog/Blog';
 
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<Todo />, document.getElementById('root'));
+ReactDOM.render(<Blog />, document.getElementById('root'));
 registerServiceWorker();
