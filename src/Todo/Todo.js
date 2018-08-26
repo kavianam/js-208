@@ -106,16 +106,9 @@ class Todo extends React.Component {
     };
     add = (e) => {
         e.preventDefault();
-        axios({
-            method: 'post',
-            url: 'http://localhost:3000/',
-            data: {
-                name: this.state.inputName,
-                age: this.state.inputAge
-            },
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
+        axios.post('http://localhost:3000/', {
+            name: this.state.inputName,
+            age: this.state.inputAge
         }).then( res => {
             console.log(res);
             this.setState({
