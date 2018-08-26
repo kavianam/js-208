@@ -38,7 +38,7 @@ class Box extends React.Component {
             {/*<span className="input-group-text mr-2 col-md-2">{this.props.name}</span>*/}
             {/*<input type="text" className="form-control mr-2 col-md-2" value={this.props.name} onChange={this.inputOnChange}/>*/}
             {this.show()}
-            <span className="input-group-text mr-2 col-md-2">{this.props.age}</span>
+            <span className="input-group-text mr-2 col-md-2">{this.props.description}</span>
             {/*<button className="btn btn-info ml-auto mr-2" type="button" id="inputGroupFileAddon04" onClick={ () => this.props.edit(this.props.id,this.props.name)}>*/}
                 {/*<i className="fa fa-pencil mr-1"> </i>*/}
                 {/*Edit*/}

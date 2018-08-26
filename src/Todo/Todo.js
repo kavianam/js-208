@@ -13,15 +13,26 @@ class Todo extends React.Component {
     constructor() {
         super();
         this.state = {
-            inputName: '',
-            inputAge: '',
+            inputTitle: '',
+            inputDescription: '',
             data: [],
             searchInput: ''
             // searchInputIcon : document.getElementById('searchInputIcon')
         }
     }
     componentDidMount() {
-        axios.get('http://localhost:3000/')
+        // axios.get('http://localhost:3000/')
+        //     .then( res => {
+        //         this.setState({
+        //             data: res.data
+        //         });
+        //     })
+        //     .catch( err => {
+        //         Swal('Oops...', 'Something went wrong!', 'error');
+        //         console.log(err);
+        //     })
+
+        axios.get('http://localhost:3000/blog')
             .then( res => {
                 this.setState({
                     data: res.data
@@ -88,13 +99,13 @@ class Todo extends React.Component {
             allowOutsideClick: () => !Swal.isLoading()
         });
     };
-    handleEdit2 = (id, name) => {
+    handleEdit2 = (title, description) => {
         axios({
             method: 'put',
             url: 'http://localhost:3000/',
             data: {
-                id,
-                name
+                title,
+                description
             }
         }).then( res => {
             console.log(res);
@@ -106,14 +117,14 @@ class Todo extends React.Component {
     };
     add = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/', {
-            name: this.state.inputName,
-            age: this.state.inputAge
+        axios.post('http://localhost:3000/blog', {
+            title: this.state.inputTitle,
+            description: this.state.inputDescription
         }).then( res => {
             console.log(res);
             this.setState({
-                inputName: '',
-                inputAge: ''
+                inputTitle: '',
+                inputDescription: ''
             });
             this.componentDidMount();
         }).catch( err => {
@@ -134,9 +145,9 @@ class Todo extends React.Component {
     };
     showSearchIcon = () => {
         if (this.state.searchInput === '') {
-            return <i className="fa fa-times" aria-hidden="true" onClick={this.searchInputDeleteIcon} id={'searchInputIcon'} style={{marginLeft: '-25px', cursor: 'pointer', display: 'none'}}> </i>
+            return <i className="fa fa-times" onClick={this.searchInputDeleteIcon} id={'searchInputIcon'} style={{marginLeft: '-25px', cursor: 'pointer', display: 'none'}}> </i>
         }else {
-            return <i className="fa fa-times" aria-hidden="true" onClick={this.searchInputDeleteIcon} id={'searchInputIcon'} style={{marginLeft: '-25px', cursor: 'pointer'}}> </i>
+            return <i className="fa fa-times" onClick={this.searchInputDeleteIcon} id={'searchInputIcon'} style={{marginLeft: '-25px', cursor: 'pointer'}}> </i>
         }
     };
     render (){
@@ -145,30 +156,25 @@ class Todo extends React.Component {
                 <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
                     <form className="form-inline">
                         <div className="form-group mb-2">
-                            <label htmlFor="taskNameLabel" className="sr-only">Name: </label>
-                            <label htmlFor="taskNameLabel">Name: </label>
+                            <label htmlFor="taskNameLabel">Title: </label>
                             {/*<input type="text" readOnly className="form-control-plaintext" value="Task Name: "/>*/}
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
-                            <label htmlFor="taskNameInput" className="sr-only">Name:</label>
-                            <input type="text" className="form-control" name="inputName" value={this.state.inputName} onChange={this.handleInputChage}/>
+                            <input type="text" className="form-control" name="inputTitle" value={this.state.inputTitle} onChange={this.handleInputChage}/>
                             {/*<label htmlFor="taskNameInput">Task Age:</label>*/}
                             {/*<input type="number" className="form-control" id="taskNameInput1"/>*/}
                         </div>
                         <div className="form-group mb-2">
-                            <label htmlFor="taskNameLabel" className="sr-only">Age: </label>
-                            <label htmlFor="taskNameLabel">Age: </label>
+                            <label htmlFor="taskNameLabel">Description: </label>
                             {/*<input type="text" readOnly className="form-control-plaintext" value="Task Name: "/>*/}
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
-                            <label htmlFor="taskNameInput" className="sr-only">Age:</label>
-                            <input type="number" className="form-control" name="inputAge" value={this.state.inputAge} onChange={this.handleInputChage}/>
+                            <input type="text" className="form-control" name="inputDescription" value={this.state.inputDescription} onChange={this.handleInputChage}/>
                         </div>
                         <button type="submit" className="btn btn-primary mb-2 mr-4" onClick={this.add}>Add</button>
                     </form>
                     <form className="form-inline ">
                         <div className="form-group mb-2">
-                            <label htmlFor="searchLabel" className="sr-only">Search: </label>
                             <label htmlFor="searchLabel">Search: </label>
                             {/*<input type="text" readOnly className="form-control-plaintext" value="Search: "/>*/}
                         </div>
@@ -192,8 +198,8 @@ class Todo extends React.Component {
             <div className={'container'}>
                 <div className="alert alert-info" role="alert">
                     <div className={'row'}>
-                        <span className={'col-md-2'}> Name </span>
-                        <span className={'col-md-2'}> Age </span>
+                        <span className={'col-md-2'}> Title </span>
+                        <span className={'col-md-2'}> Description </span>
                     </div>
                 </div>
             </div>
@@ -202,11 +208,11 @@ class Todo extends React.Component {
                     {
                         (this.state.data).map( (value, index) => {
                             if (this.state.searchInput === '') {
-                                return <Box name={value.name} age={value.age} delete={this.handleDelete}
+                                return <Box name={value.title} description={value.description} delete={this.handleDelete}
                                             edit={this.handleEdit2} id={value.id} key={index}/>
                             } else {
-                                if (value.name.indexOf(this.state.searchInput) > -1) {
-                                    return <Box name={value.name} age={value.age} delete={this.handleDelete}
+                                if (value.title.indexOf(this.state.searchInput) > -1) {
+                                    return <Box name={value.title} description={value.description} delete={this.handleDelete}
                                                 edit={this.handleEdit2} id={value.id} key={index}/>
                                 }
                                 return '';
