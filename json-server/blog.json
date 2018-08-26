@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "blog": [
+    {
+      "title": "Cell Phone",
+      "description": "faghat apple",
+      "id": 5
+    },
+    {
+      "title": "in title ast",
+      "description": "in description",
+      "id": 6
+    },
+    {
+      "title": "mashin",
+      "description": "just benz",
+      "id": 7
+    }
+  ]
+}
